@@ -7,11 +7,13 @@ pipeline {
   agent any
   stages {
     stage('Cloning Git') {
-       script {
+       steps{
+        script {
           withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'sokainadaabal@gmail.com', passwordVariable: 'rachida@20')]) {
            git branch: 'main', credentialsId: 'github', url: 'https://github.com/sokainadaabal/Tp4DevOps.git'
           }
         }
+       }
     }
     stage('Building image') {
       steps{
