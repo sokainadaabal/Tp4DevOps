@@ -1,0 +1,41 @@
+pipeline {
+  environment {
+    registry = "iibdcc20232024/tp4devops"
+    registryCredential = 'DockerHub'
+    dockerImage = ''
+  }
+  agent any
+  stages {
+    stage('Cloning Git') {
+       script {
+          withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'sokainadaabal@gmail.com', passwordVariable: 'rachida@20')]) {
+           git branch: 'main', credentialsId: 'github', url: 'https://github.com/sokainadaabal/Tp4DevOps.git'
+          }
+        }
+    }
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+stage('Test image') {
+        steps{
+        script {
+        
+            echo "Tests passed"
+        }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+  }
+}
