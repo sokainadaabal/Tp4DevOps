@@ -22,14 +22,6 @@ pipeline {
         }
       }
     }
-stage('Test image') {
-        steps{
-        script {
-        
-            echo "Tests passed"
-        }
-      }
-    }
    stage('Publish Image') {
       steps{
         script {
@@ -39,11 +31,6 @@ stage('Test image') {
         }
       }
     }
-    stage('Deploy image') {
-      steps{
-        bat "docker run -d $registry:$BUILD_NUMBER"
-      }
-    }
-  
-}
+    
   }
+}
